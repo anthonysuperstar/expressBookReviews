@@ -1,26 +1,43 @@
-let books = {
-    1: {"author": "Chinua Achebe","title": "Things Fall Apart", "reviews": {} },
-    2: {"author": "Hans Christian Andersen","title": "Fairy tales", "reviews": {} },
-    3: {"author": "Dante Alighieri","title": "The Divine Comedy", "reviews": {} },
-    4: {"author": "Unknown","title": "The Epic Of Gilgamesh", "reviews": {} },
-    5: {"author": "Unknown","title": "The Book Of Job", "reviews": {} },
-    6: {"author": "Unknown","title": "One Thousand and One Nights", "reviews": {} },
-    7: {"author": "Unknown","title": "Nj\u00e1l's Saga", "reviews": {} },
-    8: {"author": "Jane Austen","title": "Pride and Prejudice", "reviews": {} },
-    9: {"author": "Honor\u00e9 de Balzac","title": "Le P\u00e8re Goriot", "reviews": {} },
-    10: {"author": "Samuel Beckett","title": "Molloy, Malone Dies, The Unnamable, the trilogy", "reviews": {} }
-}
+const apiRegister = async () => {
+    try {
+        const response = await fetch('http://localhost:5000/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username: 'user1', password: 'pwd123' })
+        })
 
-const user = "Norbert"
-const isbn = 3
-const review = "Super sympa"
-
-for (let key in books){
-    console.log(key + ":" + JSON.stringify(books[key]))
-    if (+key == isbn){
-        books[key].reviews = {...books[key].reviews, [user]: review}
-        console.log(books[key])
+        if (response.ok){
+            console.log('Registration passed')
+        } else {
+            console.log(response.status)
+        }
+    } catch (err) {
+        console.log(err)
     }
 }
 
+const apiLogin = async () => {
+    try {
+        const response = await fetch('http://localhost:5000/customer/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username: 'user1', password: 'pwd123' })
+        })
 
+        if (response.ok){
+            console.log('Authentication passed')
+        } else {
+            console.log(response.status)
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const apiAddReview = async () => {
+    //* TO DO
+}
