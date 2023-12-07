@@ -81,11 +81,17 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
   const isbn = req.params.isbn
   const user = req.user.data.username
 
-  for(let key in books){
-    if (+key == isbn){
-      const reviews = books[key].reviews
-      // for ()
+  if(books.hasOwnProperty(isbn)){
+    const existingReviews = books[isbn].reviews
+
+    if (existingReviews.hasOwnProperty(user)){
+      delete existingReviews[user]
+      return res.status(200).json({message: "Review successfully deleted"})
+    } else {
+      return res.status(404).json({message: `${user} does not have a review for this book`})
     }
+  } else {
+    return res.status(404).json({message: "Book not found"})
   }
 })
 
