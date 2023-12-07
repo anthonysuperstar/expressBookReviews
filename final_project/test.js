@@ -39,5 +39,9 @@ const apiLogin = async () => {
 }
 
 const apiAddReview = async () => {
-    //* TO DO
+    try {
+        const response = await fetch('http://localhost:5000/customer/auth/review/2', {
+            method: 'PUT',
+        })
+    }
 }

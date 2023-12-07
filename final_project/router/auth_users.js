@@ -60,26 +60,21 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   const isbn = +req.params.isbn
   const review = req.query.review
   const user = req.user.data.username
-  for(let key in books){
-      console.log(books[key])
-      console.log("key === isbn", +key === isbn)
-      if (+key === isbn){
-        const existingReviews = books[key].reviews
-        for(let rev in existingReviews){
-          console.log("Review =? user: " + rev===user)
-          if (rev === user){
-            existingReviews[rev].review = review
-            console.log(existingReviews[rev])
-            return res.status(200).json({message: "Review successfully updated"})
-          } else {
-            books[key].reviews = {...books[key].reviews, [req.user.data.username]: review}
-            console.log(books[key].reviews)
-            return res.status(200).json({message: `Review from ${req.user.data.username} added`})
-          }
-        }
-      }
+  
+  if (books.hasOwnProperty(isbn)){
+    const existingReviews = books[isbn].reviews
+
+    if (existingReviews.hasOwnProperty(user)){
+      existingReviews[user] = review
+      return res.status(200).json({message: "Review successfully updated"})
+    } else {
+      existingReviews[user] = review
+      console.log(books[isbn].reviews)
+      return res.status(200).json({message: `Review from ${user} successfully added`})
+    }
+  } else {
+    res.status(404).json({message: "Book not found"})
   }
-  return res.status(500).json({message: "Wrong isbn"})
 });
 
 regd_users.delete("/auth/review/:isbn", (req, res) => {
